@@ -1,0 +1,154 @@
+﻿@model MedicalExamination.Models.Doctor.DoctorEditProfileViewModel
+
+@{
+    ViewBag.Title = "DoctorEditeProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>تعديل الحساب</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div>
+            <h4>@ViewBag.Message</h4>
+        </div>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.CurrentPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.CurrentPassword, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                ذكر @Html.RadioButton("Gender", "ذكر")
+                <br />
+                انثي @Html.RadioButton("Gender", "انثي")
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("البلد", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                <select id="countryId" class="form-control">
+                    <option value="">يرجى اختيار البلد</option>
+                    @foreach (var country in (List<MedicalExamination.Models.Country>)ViewBag.Country)
+                {
+                        <option value="@country.Id">@country.CountryName</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("المحافظة", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                <select id="govId" class="form-control">
+                    <option disabled="disabled" value="">الرجاء اختيار المحافظة</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("المدينة", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                <select id="cityId" name="cityId" class="form-control">
+                    <option disabled="disabled" value="">الرجاء اختيار المدينة</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+    $("#countryId").on("change", function (e)
+    {
+        var id=e.target.value;
+        var url=`@Url.Action("GetGovernoratesByCountryId","Governorates")?id=${id}`;
+        console.log(url);
+        $.ajax({
+            type:'Get',
+            url:url,
+            success:function(result)
+            {
+                var myHtml ='';
+                for (var key of result)
+                {
+                    myHtml+=`<option value="${key.Id}">${key.GovernorateName}</option>`;
+                }
+                console.log(result);
+                console.log(myHtml);
+                $("#govId").html(myHtml);
+            }
+        });
+    })
+    </script>
+    <script>
+    $("#govId").on("change", function (e)
+    {
+        var id=e.target.value;
+        var url=`@Url.Action("GetCitiesBygovId","Cities")?id=${id}`;
+        console.log(url);
+        $.ajax({
+            type:'Get',
+            url:url,
+            success:function(result)
+            {
+                var myHtml ='';
+                for (var key of result)
+                {
+                    myHtml+=`<option value="${key.Id}">${key.CityName}</option>`;
+                }
+                console.log(result);
+                console.log(myHtml);
+                $("#cityId").html(myHtml);
+            }
+        });
+    })
+    </script>
+}

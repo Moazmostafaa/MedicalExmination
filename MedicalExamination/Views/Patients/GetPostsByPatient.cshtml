@@ -1,0 +1,124 @@
+﻿@model MedicalExamination.ViewModels.PostsViewModel
+
+@{
+    ViewBag.Title = "GetPostsByPatient";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(modelItem => Model.Patient.City.CityName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(modelItem => Model.Patient.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => Model.Patient.BirthDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => Model.Patient.UserType)
+        </th>  
+        <th>
+            @Html.DisplayNameFor(model => Model.Patient.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => Model.Patient.UserName)
+        </th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(model => Model.Patient.City.CityName)
+        </td>
+        <td>
+            @Html.DisplayFor(model => Model.Patient.Gender)
+        </td>
+        <td>
+            @Html.DisplayFor(model => Model.Patient.BirthDate)
+        </td>
+        <td>
+            @Html.DisplayFor(model => Model.Patient.UserType)
+        </td>
+        <td>
+            @Html.DisplayFor(model => Model.Patient.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(model => Model.Patient.UserName)
+        </td>
+    </tr>
+</table>
+
+
+<div class="panel panel-default" style="padding:15px">
+    <div class="row">
+        <h3 class="panel-heading">اضافة بوست</h3>
+        <div class="col-md-8 thumbnail " id="Post">
+            <form action="/Posts/Create" method="post">
+                @Html.AntiForgeryToken()
+                <div class="row form-group" style="margin-top:20px">
+                    <textarea name="PostContant" style="width:600px;height:50px;"></textarea>
+                        @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control" })
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <div class="row">
+    @foreach (var item in Model.Posts)
+    {
+        <div class="col-md-8 thumbnail">
+            <div class="card col-md-8" style="margin-bottom:15px;border:initial">
+                <div class="card-header row" style="background-color:#EEE">
+                    <div>
+                        <h4 style="text-decoration-style:solid">@Html.DisplayFor(modelItem => item.Patient.UserName)</h4>
+                        <h6 style="margin-left:2px">@Html.DisplayFor(modelItem => item.PostDate)</h6>
+                    </div>
+                    <div style="float:right">
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h4 style="margin-left:2px">@Html.DisplayFor(modelItem => item.PostContant)</h4>
+                </div>
+                <div class="col-md-12">
+                    <form action="/Comments/Create" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="DoctorId" value="@item.PatientId" />
+                        <input type="hidden" name="PostId" value="@item.Id" />
+                        <div class="row form-group" style="margin-top:20px">
+                            <textarea name="CommentContent" style="width:600px;height:50px;"></textarea>
+                            @Html.ValidationMessageFor(model => model.Comment.CommentContent, "", new { @class = "text-danger" })
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer col-md-10" style="background-color:#EEE;overflow: auto;">
+                    @foreach (var row in item.Comments)
+                    {
+                        <div class="card" style="background-color:white;margin-bottom:10px">
+                            <div class="card-header">
+                                <div>
+                                    <h4>@Html.DisplayFor(modelItem => row.Doctor.UserName)</h4>
+                                    <small style="margin-left:5px">@Html.DisplayFor(modelItem => row.CommentDate)</small>
+                                </div>
+                            </div>
+                            <div class="card-body" style="margin-left:10px;word-wrap:break-word">
+                                @Html.DisplayFor(modelItem => row.CommentContent)
+                            </div>
+                            <div class="card-footer">
+                                <div style="float:left;margin-top: -17px;">
+                                    <a href="@Url.Action("Delete","Comments",new { id = row.Id})">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,263 @@
+﻿@using Microsoft.AspNet.Identity
+@using MedicalExamination.Models
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoff" }))
+    {
+        var db = new ApplicationDbContext();
+        var UserID = User.Identity.GetUserId();
+        var CurrentUser = db.Users.Where(a => a.Id == UserID).SingleOrDefault();
+        @Html.AntiForgeryToken()
+        <ul>
+            @if (CurrentUser.UserType == "Admin")
+            {
+                <ul class="nav navbar-nav ">
+                    <li>
+                    <a href="#"><i class="glyphicon glyphicon-home"></i></a></li></ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <strong>مرحبا بك يا :@CurrentUser.UserName</strong>
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </a>
+                        <ul class="dropdown-menu col-md-12">
+                            <li>
+                                <div class="navbar-user">
+                                    <div class="row">
+                                        <div class="col-lag-4">
+                                            <p class="text-center"><span class="glyphicon glyphicon-user img-size"></span></p>
+                                        </div>
+                                        <div class="col-lag-8">
+                                            <p class="text-center"><strong class="navbar-username">@CurrentUser.UserName</strong> </p>
+                                            <a href="~/Home/GetJobsByUsers" class="btn btn-success btn-block" style="width: 192px;margin-right: 25px;">عرض الدكاترة</a>
+                                            <a href="~/Home/GetJobsByUsers" class="btn btn-success btn-block" style="width: 192px;margin-right: 25px;">عرض المرضي</a>
+                                            <a href="~/Account/EditProfile" class="btn btn-primary btn-block" style="width: 192px;margin-right: 25px;">تعديل الحساب</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div>
+                                    <div class="row">
+                                        <div class="col-lag-12">
+                                            <p><a href="javascript:document.getElementById('logoff').submit()" class="btn btn-danger btn-block" style="width: 192px;margin-right: 25px;">تسجيل الخروج</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            }
+            @if (CurrentUser.UserType == "دكتور")
+            {
+                <ul class="nav navbar-nav ">
+                    <li><a href="~/Doctors/Index"><i class="glyphicon glyphicon-home"> الرئيسية</i></a></li>
+                    @*<li>@Html.ActionLink("حسابي","ViewProfile_Doctor", "Doctors", new { docId = CurrentUser.Id })</li>*@ 
+                    <li><a href="@Url.Action("ViewProfile_Doctor","Doctors", new { docId = CurrentUser.Id })"><i class="glyphicon glyphicon-info-sign">حسابي</i> </a></li>
+                </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-user"></span>
+                                <strong>مرحبا بك يا :@CurrentUser.UserName</strong>
+                                <span class="glyphicon glyphicon-chevron-down"></span>
+                            </a>
+                            <ul class="dropdown-menu col-md-12">
+                                <li>
+                                    <div class="navbar-user" id="Doc">
+                                        <div class="row">
+                                            <div class="col-lag-4">
+                                                <p class="text-center"><span class="glyphicon glyphicon-user img-size"></span></p>
+                                            </div>
+                                            <div class="col-lag-8">
+                                                <p class="text-center"><strong class="navbar-username">@CurrentUser.UserName</strong></p>
+                                                <a href="~/DoctorHospitals/Index" class="btn btn-success btn-block" style="width: 192px;margin-right: 25px;">المستشفيات</a>
+                                                <a href="~/Clinics/Index" class="btn btn-success btn-block" style="width: 192px;margin-right: 25px;">العيادات</a>
+                                                <a href="~/Manage/Index" class="btn btn-primary btn-block" style="width: 192px;margin-right: 25px;">الضبط</a>
+                                                <a href="~/Account/DoctorEditeProfile" class="btn btn-primary btn-block" style="width: 192px;margin-right: 25px;">تعديل الحساب</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div>
+                                        <div class="row">
+                                            <div class="col-lag-12">
+                                                <p><a href="javascript:document.getElementById('logoff').submit()" class="btn btn-danger btn-block" style="width: 192px;margin-right: 25px;">تسجيل الخروج</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    }
+                    @if (CurrentUser.UserType == "مريض")
+                        {
+                        <ul class="nav navbar-nav ">
+                            <li><a href="~/Patients/Index"> <i class="glyphicon glyphicon-home">الرئيسية</i></a></li>
+                            <li><a href="@Url.Action("ViewProfile_Patient","Patients", new { profId = CurrentUser.Id })"><i class="glyphicon glyphicon-info-sign">حسابي</i> </a></li>
+                            <li><a href="#"> <i class="glyphicon glyphicon-envelope">ابدأ الفحص</i> </a></li>
+                            <li><a href="#"> <i class="glyphicon glyphicon-envelope">سجل الفحص</i> </a></li>
+                        </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <span class="glyphicon glyphicon-user"></span>
+                                        <strong>مرحبا بك يا :@CurrentUser.UserName</strong>
+                                        <span class="glyphicon glyphicon-chevron-down"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <div class="navbar-user">
+                                                <div class="row">
+                                                    <div class="col-lag-4">
+                                                        <p class="text-center">
+                                                            <span class="glyphicon glyphicon-user img-size"></span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-lag-8">
+                                                        <p class="text-center"> <strong class="navbar-username"> @CurrentUser.UserName </strong></p>
+                                                        <a href="~/Manage/Index" class="btn btn-primary btn-block" style="width: 192px;margin-right: 25px;">الضبط</a>                                                       
+                                                        <a href="~/Account/EditeProfile" class="btn btn-primary btn-block" style="width: 192px;margin-right: 25px;">تعديل الحساب</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li>
+                                            <div>
+                                                <div class="row">
+                                                    <div class="col-lag-12">
+                                                        <p><a href="javascript:document.getElementById('logoff').submit()" class="btn btn-danger btn-block" style="width: 192px;margin-right: 25px;">تسجيل الخروج</a></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            }
+                        </ul>
+                    }
+}
+else
+{<ul class="nav navbar-nav">
+    <li>
+        <a href="~/Home/Index">
+            <i class="glyphicon glyphicon-home">
+                الرئيسية
+            </i>
+        </a>
+    </li>
+
+    <li>
+        <a href="~/Home/About">
+            <i class="glyphicon glyphicon-info-sign">
+                حول الموقع
+            </i>
+        </a>
+    </li>
+
+    <li>
+        <a href="~/Home/Contact">
+            <i class="glyphicon glyphicon-envelope">
+                اتصل بنا
+            </i>
+        </a>
+    </li>
+</ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="glyphicon glyphicon-user"> </i>
+                <strong>اشتراك</strong>
+                <span class="glyphicon glyphicon-chevron-down"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <a href="~/Account/Register" class="btn btn-primary btn-block" style="width:139px;margin-right:10px">مريض</a>
+                <a href="~/Account/RegisterDoctor" class="btn btn-primary btn-block" style="width:139px;margin-right:10px">دكتور</a>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="~/Account/Login">
+                <i class="glyphicon glyphicon-user"> </i>
+                <strong>تسجيل دخول</strong>
+            </a>
+        </li>
+    </ul>
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @*@using Microsoft.AspNet.Identity
+        @if (Request.IsAuthenticated)
+        {
+            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        @Html.ActionLink("مرحبا " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    </li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">تسجيل الخروج</a></li>
+                </ul>
+            }
+        }
+        @if (CurrentUser. == "Doctor")
+        {
+            <a href="~/Home/GetJobsByPublisher" class="btn btn-success btn-block" style="width: 192px;margin-right: 25px;">اضافة تخصص</a>
+                                                <a href="~/Home/GetJobsByUsers" class="btn btn-success btn-block" style="width: 192px;margin-right: 25px;">اضافة المستشفيات</a>
+                                                <a href="~/Jobs/Create" class="btn btn-success btn-block" style="width: 192px;margin-right: 25px;">أضافة العيادات</a>
+                                                <a href="~/Jobs/Create" class="btn btn-success btn-block" style="width: 192px;margin-right: 25px;">اضافة المواعيد</a>
+        }
+        else
+        {
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="glyphicon glyphicon-user"> </i>
+                        <strong>اشتراك</strong>
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <a href="~/Account/Register" class="btn btn-primary btn-block">مريض</a>
+                        <a href="~/Account/RegisterDoctor" class="btn btn-primary btn-block">دكتور</a>
+                    </ul>
+                </li>
+                <li>
+                    <a href="~/Account/Login">
+                        <i class="glyphicon glyphicon-user"> </i>
+                        <strong>تسجيل دخول</strong>
+                    </a>
+                </li>
+            </ul>
+        }*@

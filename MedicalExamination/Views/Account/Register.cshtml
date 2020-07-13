@@ -1,0 +1,148 @@
+﻿@model MedicalExamination.Models.RegisterViewModel
+
+@{
+    ViewBag.Title = ".تسجيل الاشتراك";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>.انشاء حساب جديد</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownList("Roles", null, new { @class = "form-control"})
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            ذكر @Html.RadioButton("Gender", "ذكر")
+            <br />
+            انثي @Html.RadioButton("Gender", "انثي")
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("البلد", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <select id="countryId" class="form-control">
+                <option value="">يرجى اختيار البلد</option>
+                @foreach (var country in (List<MedicalExamination.Models.Country>)ViewBag.Country)
+                {
+                    <option value="@country.Id">@country.CountryName</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("المحافظة", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <select id="govId" class="form-control">
+                <option disabled="disabled" value="">الرجاء اختيار المحافظة</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("المدينة", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <select id="cityId" name="cityId" class="form-control">
+                <option disabled="disabled" value="">الرجاء اختيار المدينة</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="تسجيل" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+<script>
+    $("#countryId").on("change", function (e)
+    {
+        var id=e.target.value;
+        var url=`@Url.Action("GetGovernoratesByCountryId","Governorates")?id=${id}`;
+        console.log(url);
+        $.ajax({
+            type:'Get',
+            url:url,
+            success:function(result)
+            {
+                var myHtml ='';
+                for (var key of result)
+                {
+                    myHtml+=`<option value="${key.Id}">${key.GovernorateName}</option>`;
+                }
+                console.log(result);
+                console.log(myHtml);
+                $("#govId").html(myHtml);
+            }
+        });
+    })
+</script>
+<script>
+    $("#govId").on("change", function (e)
+    {
+        var id=e.target.value;
+        var url=`@Url.Action("GetCitiesBygovId","Cities")?id=${id}`;
+        console.log(url);
+        $.ajax({
+            type:'Get',
+            url:url,
+            success:function(result)
+            {
+                var myHtml ='';
+                for (var key of result)
+                {
+                    myHtml+=`<option value="${key.Id}">${key.CityName}</option>`;
+                }
+                console.log(result);
+                console.log(myHtml);
+                $("#cityId").html(myHtml);
+            }
+        });
+    })
+</script>
+}

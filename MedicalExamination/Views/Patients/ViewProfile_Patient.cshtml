@@ -1,0 +1,144 @@
+﻿@model MedicalExamination.ViewModels.PostsViewModel
+@using MedicalExamination.Models
+
+@{
+    ViewBag.Title = "ViewProfile_Patient";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    @*Profile Info*@
+    <div class="row">
+        <div>
+            <h3>حسابي</h3>
+            <hr />
+            <div class="col-md-2 image-cropper">
+                @if (Model.Patient.Gender =="ذكر")
+                {
+                    <img src="~/Images/Patient-male.jpg" class="rounded" />
+                }
+                @if (Model.Patient.Gender == "انثي")
+                {
+                    <img src="~/Images/Patient-female.jpg" class="rounded" />
+                }
+                
+            </div>
+                <dl class="col-md-2 dl-horizontal">
+                    <dt>
+                        البريد الالكتروني :
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Patient.Email)
+                    </dd>
+
+                    <dt>
+                        رقم الموبايل :
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Patient.PhoneNumber)
+                    </dd>
+
+                    <dt>
+                        نوع المستخدم :
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Patient.UserType)
+                    </dd>
+                    <dt>
+                        المدينة :
+                    </dt>
+                    @{
+                        string cityName = new ApplicationDbContext().Cities.FirstOrDefault(x => x.Id == Model.Patient.CityId).CityName;
+                    }
+                    <dd>
+                        @Html.DisplayFor(model => cityName)
+                    </dd>
+                </dl>
+            </div>
+    </div>
+    <br />
+    <div class="row">
+        @*Add Post*@
+        <div class="col-md-8">
+            <div class="panel panel-default col-md-12" style="padding:15px">
+                <div class="row">
+                    <h3 class="panel-heading">اضافة بوست</h3>
+                    <div class="col-md-8 thumbnail " id="Post">
+                        <form action="/Posts/Create" method="post">
+                            @Html.AntiForgeryToken()
+                            <div class="row form-group" style="margin-top:20px">
+                                <textarea name="PostContant" style="width:600px;height:50px;"></textarea>
+                                @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control" })
+                                <input type="submit" value="Create" class="btn btn-default" style="margin-top:5px" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*List of his posts*@
+
+        <div class="row col-md-12">
+            @foreach (var item in Model.Posts)
+            {
+                <div class="col-md-8 thumbnail">
+                    <div class="card col-md-8" style="margin-bottom:15px;border:initial">
+                        <div class="card-header row" style="background-color:#EEE">
+                            <div>
+                                <h4 style="text-decoration-style:solid">@Html.DisplayFor(modelItem => item.Patient.UserName)</h4>
+                                <h6 style="margin-left:2px">@Html.DisplayFor(modelItem => item.PostDate)</h6>
+                            </div>
+                            <div style="float:right">
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h4 style="margin-left:2px">@Html.DisplayFor(modelItem => item.PostContant)</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <form action="/Comments/Create" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="DoctorId" value="@item.PatientId" />
+                                <input type="hidden" name="PostId" value="@item.Id" />
+                                <div class="form-group" style="margin-top:20px">
+                                    <textarea name="CommentContent" style="width:600px;height:50px;"></textarea>
+                                    @Html.ValidationMessageFor(model => model.Comment.CommentContent, "", new { @class = "text-danger" })
+                                    <input type="submit" value="Create" class="btn btn-default" style="margin-top:5px" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer col-md-10" style="background-color:#EEE;overflow: auto;">
+                            @foreach (var row in item.Comments)
+                            {
+                                <div class="card" style="background-color:white;margin-bottom:10px">
+                                    <div class="card-header">
+                                        <div>
+                                            <h4>@Html.DisplayFor(modelItem => row.Doctor.UserName)</h4>
+                                            <small style="margin-left:5px">@Html.DisplayFor(modelItem => row.CommentDate)</small>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="margin-left:10px;word-wrap:break-word">
+                                        @Html.DisplayFor(modelItem => row.CommentContent)
+                                    </div>
+                                    <div class="card-footer">
+                                        <div style="float:left;margin-top: -17px;">
+                                            <a href="@Url.Action("Delete","Comments",new { id = row.Id})">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+
+    </div>
+</div>

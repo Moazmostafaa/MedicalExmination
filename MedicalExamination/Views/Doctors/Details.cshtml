@@ -1,0 +1,42 @@
+﻿@model MedicalExamination.Models.Doctor.Doctor
+@using MedicalExamination.Models
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    @*Profile Info*@
+    <div class="row">
+        <div>
+            <h3>حسابي</h3>
+            <hr />
+            <div class="col-md-2 image-cropper">
+                @if (Model.Gender == "ذكر")
+                {
+                    <img src="~/Images/Doctor-male.jpg" class="rounded" />
+                }
+                @if (Model.Gender == "انثي")
+                {
+                    <img src="~/Images/Doctor-female.jpg" class="rounded" />
+                }
+
+            </div>
+            <dl class="col-md-2 dl-horizontal">
+                <dt>البريد الالكتروني :</dt>
+                <dd>@Html.DisplayFor(model => model.Email)</dd>
+                <dt>رقم الموبايل :</dt>
+                <dd>@Html.DisplayFor(model => model.PhoneNumber)</dd>
+                <dt>نوع المستخدم :</dt>
+                <dd>@Html.DisplayFor(model => model.UserType) </dd>
+                <dt>المدينة : </dt>
+                @{string cityName = new ApplicationDbContext().Cities.FirstOrDefault(x => x.Id == Model.CityId).CityName;}
+                <dd>@Html.DisplayFor(model => cityName)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Category.CategoryName)</dt>
+                <dd>@Html.DisplayFor(model => model.Category.CategoryName)</dd>
+            </dl>
+        </div>
+    </div>
+</div>
+

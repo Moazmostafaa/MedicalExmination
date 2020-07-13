@@ -1,0 +1,79 @@
+﻿@model MedicalExamination.Models.Patient
+@using MedicalExamination.Models
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    @*Profile Info*@
+    <div class="row">
+        <div>
+            <hr />
+            <div class="col-md-2 image-cropper">
+                @if (Model.Gender == "ذكر")
+                {
+                    <img src="~/Images/Patient-male.jpg" class="rounded" />
+                }
+                @if (Model.Gender == "انثي")
+                {
+                    <img src="~/Images/Patient-female.jpg" class="rounded" />
+                }
+
+            </div>
+            <dl class="col-md-2 dl-horizontal">
+                <dt>البريد الالكتروني :</dt>
+                <dd>@Html.DisplayFor(model => model.Email)</dd>
+                <dt>رقم الموبايل :</dt>
+                <dd>@Html.DisplayFor(model => model.PhoneNumber)</dd>
+                <dt>نوع المستخدم :</dt>
+                <dd>@Html.DisplayFor(model => model.UserType) </dd>
+                <dt>المدينة : </dt>
+                @{string cityName = new ApplicationDbContext().Cities.FirstOrDefault(x => x.Id == Model.CityId).CityName;}
+                <dd>@Html.DisplayFor(model => cityName)</dd>
+            </dl>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        @*List of his posts*@
+        <div class="row col-md-12">
+            @foreach (var item in Model.Posts)
+            {
+                <div class="col-md-8 thumbnail">
+                    <div class="card col-md-8" style="margin-bottom:15px;border:initial">
+                        <div class="card-header row" style="background-color:#EEE">
+                            <div>
+                                <h4 style="text-decoration-style:solid">@Html.DisplayFor(modelItem => item.Patient.UserName)</h4>
+                                <div style="float:left;margin-top: -17px;">
+                                    <h6 style="margin-left:2px">@Html.DisplayFor(modelItem => item.PostDate)</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h4 style="margin-left:2px">@Html.DisplayFor(modelItem => item.PostContant)</h4>
+                        </div>
+                        <div class="card-footer col-md-10" style="background-color:#EEE;overflow: auto;">
+                            @foreach (var row in item.Comments)
+                            {
+                                <div class="card" style="background-color:white;margin-bottom:10px">
+                                    <div class="card-header">
+                                        <div>
+                                            <h4>@Html.DisplayFor(modelItem => row.Doctor.UserName)</h4>
+                                            <div style="float:left;margin-top: -17px;">
+                                                <small style="margin-left:5px">@Html.DisplayFor(modelItem => row.CommentDate)</small>
+                                            </div>
+                                            </div>
+                                    </div>
+                                    <div class="card-body" style="margin-left:10px;word-wrap:break-word">
+                                        @Html.DisplayFor(modelItem => row.CommentContent)
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
