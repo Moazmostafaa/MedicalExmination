@@ -1,0 +1,51 @@
+﻿@model MedicalExamination.ViewModels.DiseasesAndSymptoms.SymptomsViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Symptoms</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Symptom.NameAr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Symptom.NameAr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Symptom.NameEn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Symptom.NameEn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Symptom.CreationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Symptom.CreationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CategoryNameAr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CategoryNameAr)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Symptom.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

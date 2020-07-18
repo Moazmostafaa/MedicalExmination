@@ -1,0 +1,52 @@
+﻿@model IEnumerable<MedicalExamination.ViewModels.DiseasesAndSymptoms.SymptomsViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Symptom.NameAr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Symptom.NameEn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Symptom.CreationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryNameAr)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Symptom.NameAr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Symptom.NameEn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Symptom.CreationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CategoryNameAr)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Symptom.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Symptom.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Symptom.Id })
+        </td>
+    </tr>
+}
+
+</table>

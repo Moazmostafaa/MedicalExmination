@@ -39,28 +39,34 @@ namespace MedicalExamination.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<MedicalExamination.Models.Country> Countries { get; set; }
+        public DbSet<Country> Countries { get; set; }
 
-        public System.Data.Entity.DbSet<MedicalExamination.Models.Governorate> Governorates { get; set; }
+        public DbSet<Governorate> Governorates { get; set; }
 
-        public System.Data.Entity.DbSet<MedicalExamination.Models.City> Cities { get; set; }
+        public DbSet<City> Cities { get; set; }
 
-        public System.Data.Entity.DbSet<MedicalExamination.Models.Doctor.Doctor> Doctors { get; set; }
+        public DbSet<Doctor.Doctor> Doctors { get; set; }
 
-        public System.Data.Entity.DbSet<MedicalExamination.Models.Patient> Patients { get; set; }
+        public DbSet<Patient> Patients { get; set; }
 
-        public System.Data.Entity.DbSet<MedicalExamination.Models.Doctor.Hospital> Hospitals { get; set; }
+        public DbSet<Doctor.Hospital> Hospitals { get; set; }
 
-        public System.Data.Entity.DbSet<MedicalExamination.Models.Doctor.Clinic> Clinics { get; set; }
+        public DbSet<Doctor.Clinic> Clinics { get; set; }
 
-        public System.Data.Entity.DbSet<MedicalExamination.Models.Category> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
-        public System.Data.Entity.DbSet<MedicalExamination.Models.Post> Posts { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
-        public System.Data.Entity.DbSet<MedicalExamination.Models.Comment> Comments { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
-        public System.Data.Entity.DbSet<MedicalExamination.Models.Doctor.DoctorHospital> DoctorHospitals { get; set; }
+        public DbSet<Doctor.DoctorHospital> DoctorHospitals { get; set; }
 
-        public System.Data.Entity.DbSet<MedicalExamination.Models.Doctor.Rating> Ratings { get; set; }
+        public DbSet<Doctor.Rating> Ratings { get; set; }
+
+        public DbSet<TestAndDisease.Disease> Diseases{ get; set; }
+        public DbSet<TestAndDisease.DiseaseSymptoms> DiseaseSymptoms{ get; set; }
+        public DbSet<TestAndDisease.Symptoms> Symptoms{ get; set; }
+        public DbSet<TestAndDisease.Test> Tests{ get; set; }
+        public DbSet<TestAndDisease.TestSymptoms> TestSymptoms{ get; set; }
     }
 }

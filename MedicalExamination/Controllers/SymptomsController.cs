@@ -7,111 +7,143 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MedicalExamination.Models;
+using MedicalExamination.Models.TestAndDisease;
+using MedicalExamination.ViewModels.DiseasesAndSymptoms;
 
 namespace MedicalExamination.Controllers
 {
-    public class CategoriesController : Controller
+    public class SymptomsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Categories
+        // GET: Symptoms
         public ActionResult Index()
         {
-            return View(db.Categories.ToList());
+            var result = new List<SymptomsViewModel>();
+            var symptoms = db.Symptoms.ToList();
+
+            foreach(var symptom in symptoms)
+            {
+                var category = db.Categories.FirstOrDefault(x => x.Id == symptom.CategoryId);
+
+                var viewModel = new SymptomsViewModel()
+                {
+                    Symptom = symptom,
+                    CategoryNameAr = category.CategoryName,
+                };
+                result.Add(viewModel);
+            }
+            return View(result);
         }
 
-        // GET: Categories/Details/5
+        // GET: Symptoms/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categories.Find(id);
-            if (category == null)
+            Symptoms symptom = db.Symptoms.Find(id);
+            if (symptom == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+
+            var category = db.Categories.FirstOrDefault(x => x.Id == symptom.CategoryId);
+
+            var viewModel = new SymptomsViewModel()
+            {
+                Symptom = symptom,
+                CategoryNameAr = category.CategoryName,
+            };
+            return View(viewModel);
         }
 
-        // GET: Categories/Create
+        // GET: Symptoms/Create
         public ActionResult Create()
         {
+            ViewBag.Categories = db.Categories.ToList();
+
             return View();
         }
 
-        // POST: Categories/Create
+        // POST: Symptoms/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CategoryName,CreationDate")] Category category)
+        public ActionResult Create([Bind(Include = "Id,NameAr,NameEn,CreationDate,CategoryId")] Symptoms symptoms)
         {
-            category.CreationDate = DateTime.Now;
+            symptoms.CreationDate = DateTime.Now;
             if (ModelState.IsValid)
             {
-                db.Categories.Add(category);
+                db.Symptoms.Add(symptoms);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Categories = db.Categories.ToList();
 
-            return View(category);
+            return View(symptoms);
         }
 
-        // GET: Categories/Edit/5
+        // GET: Symptoms/Edit/5
         public ActionResult Edit(int? id)
         {
+            ViewBag.Categories = db.Categories.ToList();
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categories.Find(id);
-            if (category == null)
+            Symptoms symptoms = db.Symptoms.Find(id);
+            if (symptoms == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View(symptoms);
         }
 
-        // POST: Categories/Edit/5
+        // POST: Symptoms/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CategoryName,CreationDate")] Category category)
+        public ActionResult Edit([Bind(Include = "Id,NameAr,NameEn,CreationDate,CategoryId")] Symptoms symptoms)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(category).State = EntityState.Modified;
+                db.Entry(symptoms).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(category);
+
+            ViewBag.Categories = db.Categories.ToList();
+
+            return View(symptoms);
         }
 
-        // GET: Categories/Delete/5
+        // GET: Symptoms/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categories.Find(id);
-            if (category == null)
+            Symptoms symptoms = db.Symptoms.Find(id);
+            if (symptoms == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View(symptoms);
         }
 
-        // POST: Categories/Delete/5
+        // POST: Symptoms/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Category category = db.Categories.Find(id);
-            db.Categories.Remove(category);
+            Symptoms symptoms = db.Symptoms.Find(id);
+            db.Symptoms.Remove(symptoms);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

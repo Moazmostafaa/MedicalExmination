@@ -1,0 +1,50 @@
+﻿@model MedicalExamination.ViewModels.DiseasesAndSymptoms.DiseasesViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>تفاصيل</h2>
+
+<div>
+    <h4>المرض</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Disease.NameAr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Disease.NameAr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Disease.NameEn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Disease.NameEn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Disease.CreationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Disease.CreationDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CategoryNameAr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CategoryNameAr)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("تعديل", "Edit", new { id = Model.Disease.Id }) |
+    @Html.ActionLink("عودة إلي قائمة الأمراض", "Index")
+</p>

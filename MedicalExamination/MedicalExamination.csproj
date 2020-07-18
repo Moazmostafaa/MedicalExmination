@@ -26,6 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -197,6 +198,7 @@
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ClinicsController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\DiseasesController.cs" />
     <Compile Include="Controllers\DoctorHospitalsController.cs" />
     <Compile Include="Controllers\DoctorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -206,6 +208,8 @@
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\RatingsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\SymptomsController.cs" />
+    <Compile Include="Controllers\TestsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -345,6 +349,30 @@
     <Compile Include="Migrations\202004011302041_UpdateUsersRatedToNullable.designer.cs">
       <DependentUpon>202004011302041_UpdateUsersRatedToNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007171530519_TestAndDiseasesTbls.cs" />
+    <Compile Include="Migrations\202007171530519_TestAndDiseasesTbls.designer.cs">
+      <DependentUpon>202007171530519_TestAndDiseasesTbls.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007171549347_TestAndDiseasesNamesAndValidations.cs" />
+    <Compile Include="Migrations\202007171549347_TestAndDiseasesNamesAndValidations.designer.cs">
+      <DependentUpon>202007171549347_TestAndDiseasesNamesAndValidations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007171723432_IntegrateDiseaseWithCategory.cs" />
+    <Compile Include="Migrations\202007171723432_IntegrateDiseaseWithCategory.designer.cs">
+      <DependentUpon>202007171723432_IntegrateDiseaseWithCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007171748481_newone.cs" />
+    <Compile Include="Migrations\202007171748481_newone.designer.cs">
+      <DependentUpon>202007171748481_newone.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007181615412_refactoringDiseasesAndSymptomsWithCategories.cs" />
+    <Compile Include="Migrations\202007181615412_refactoringDiseasesAndSymptomsWithCategories.designer.cs">
+      <DependentUpon>202007181615412_refactoringDiseasesAndSymptomsWithCategories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007181704230_addUserIdToTestTbl.cs" />
+    <Compile Include="Migrations\202007181704230_addUserIdToTestTbl.designer.cs">
+      <DependentUpon>202007181704230_addUserIdToTestTbl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address\City.cs" />
@@ -353,6 +381,7 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Clinic.cs" />
+    <Compile Include="Models\TestAndDisease\Disease.cs" />
     <Compile Include="Models\Doctor.cs" />
     <Compile Include="Models\DoctorHospital.cs" />
     <Compile Include="Models\Hospital.cs" />
@@ -362,10 +391,17 @@
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Rating.cs" />
     <Compile Include="Models\RoleViewModel.cs" />
+    <Compile Include="Models\TestAndDisease\DiseaseSymptoms.cs" />
+    <Compile Include="Models\TestAndDisease\Symptoms.cs" />
+    <Compile Include="Models\TestAndDisease\Test.cs" />
+    <Compile Include="Models\TestAndDisease\TestSymptoms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\DiseasesAndSymptoms\DiseasesViewModel.cs" />
+    <Compile Include="ViewModels\DiseasesAndSymptoms\SymptomsViewModel.cs" />
     <Compile Include="ViewModels\DoctorViewModel.cs" />
     <Compile Include="ViewModels\PostsViewModel.cs" />
+    <Compile Include="ViewModels\TestViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.min.css" />
@@ -425,7 +461,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -567,6 +602,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004011302041_UpdateUsersRatedToNullable.resx">
       <DependentUpon>202004011302041_UpdateUsersRatedToNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007171530519_TestAndDiseasesTbls.resx">
+      <DependentUpon>202007171530519_TestAndDiseasesTbls.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007171549347_TestAndDiseasesNamesAndValidations.resx">
+      <DependentUpon>202007171549347_TestAndDiseasesNamesAndValidations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007171723432_IntegrateDiseaseWithCategory.resx">
+      <DependentUpon>202007171723432_IntegrateDiseaseWithCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007171748481_newone.resx">
+      <DependentUpon>202007171748481_newone.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007181615412_refactoringDiseasesAndSymptomsWithCategories.resx">
+      <DependentUpon>202007181615412_refactoringDiseasesAndSymptomsWithCategories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007181704230_addUserIdToTestTbl.resx">
+      <DependentUpon>202007181704230_addUserIdToTestTbl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -819,6 +872,57 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Patients\Rate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Diseases\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Diseases\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Diseases\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Diseases\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Diseases\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Symptoms\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Symptoms\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Symptoms\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Symptoms\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Symptoms\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Tests\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Tests\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Tests\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Tests\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Tests\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Tests\TakeTest.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Uploads\Testing.xlsx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

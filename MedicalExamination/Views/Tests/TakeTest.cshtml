@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MedicalExamination.Models.TestAndDisease.Symptoms>
+
+@{
+    ViewBag.Title = "TakeTest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>اختبر صحتك</h2>
+<h4>اختر من الاعراض الاتية ما تشعر به</h4>
+
+<hr />
+
+<div id="MyDiv" style="display:inline-block">
+    @foreach (var symptom in Model)
+    {
+        <div class="col-md-3" style="margin-bottom:30px">
+            <input type="checkbox" name="symptom" value="@symptom.Id" style="margin-left:10px;font-size" />
+            <span class="checkboxtext" style="margin-left:25px">@symptom.NameAr</span>
+        </div>
+    }
+</div>
+
+<button id="someButton" class="btn-info" style="margin-bottom:30px;padding:10px">افحص النتيجة</button>
+
+<script>
+    $(document).ready(function () {
+    $('#someButton').click(function() {
+        var list = [];
+        $('#MyDiv input:checked').each(function() {
+            list.push(this.value);
+        });
+        $.ajax({
+            url: '@Url.Action("TakeTest","Tests")',
+            type: 'POST',
+            data: { symptomsIDs: list},
+        });
+    });
+    });
+</script>
