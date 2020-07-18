@@ -22,7 +22,8 @@ namespace MedicalExamination.Controllers
         // GET: Tests
         public ActionResult Index()
         {
-            return View(db.Tests.ToList());
+            var patientId = User.Identity.GetUserId(); ;
+            return View(db.Tests.Where(x=>x.UserId == patientId).ToList());
         }
 
         // GET: Tests/Details/5
@@ -162,7 +163,7 @@ namespace MedicalExamination.Controllers
             db.SaveChanges();
 
 
-            return RedirectToAction("Details", new { id = test.Id });
+            return Json(Url.Action("Index"));
         }
     }
 }

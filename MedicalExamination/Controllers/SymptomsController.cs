@@ -121,26 +121,11 @@ namespace MedicalExamination.Controllers
 
             return View(symptoms);
         }
-
-        // GET: Symptoms/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Symptoms symptoms = db.Symptoms.Find(id);
-            if (symptoms == null)
-            {
-                return HttpNotFound();
-            }
-            return View(symptoms);
-        }
-
+        
         // POST: Symptoms/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
             Symptoms symptoms = db.Symptoms.Find(id);
             db.Symptoms.Remove(symptoms);

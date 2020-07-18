@@ -32,7 +32,11 @@
         $.ajax({
             url: '@Url.Action("TakeTest","Tests")',
             type: 'POST',
-            data: { symptomsIDs: list},
+            data: { symptomsIDs: list },
+
+            success: function (data) {
+                window.location.href = data;
+            }
         });
     });
     });

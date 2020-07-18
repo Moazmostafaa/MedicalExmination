@@ -102,8 +102,8 @@
                         <ul class="nav navbar-nav ">
                             <li><a href="~/Patients/Index"> <i class="glyphicon glyphicon-home">الرئيسية</i></a></li>
                             <li><a href="@Url.Action("ViewProfile_Patient","Patients", new { profId = CurrentUser.Id })"><i class="glyphicon glyphicon-info-sign">حسابي</i> </a></li>
-                            <li><a href="#"> <i class="glyphicon glyphicon-envelope">ابدأ الفحص</i> </a></li>
-                            <li><a href="#"> <i class="glyphicon glyphicon-envelope">سجل الفحص</i> </a></li>
+                            <li><a href="@Url.Action("TakeTest","Tests")"> <i class="glyphicon glyphicon-envelope">ابدأ الفحص</i> </a></li>
+                            <li><a href="@Url.Action("Index","Tests")"> <i class="glyphicon glyphicon-envelope">سجل الفحص</i> </a></li>
                         </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="dropdown">

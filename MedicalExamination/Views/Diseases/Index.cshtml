@@ -43,11 +43,28 @@
             @Html.DisplayFor(modelItem => item.CategoryNameAr)
         </td>
         <td>
-            @Html.ActionLink("تعديل", "Edit", new { id = item.Disease.Id }) |
-            @Html.ActionLink("التفاصيل", "Details", new { id = item.Disease.Id }) |
-            @Html.ActionLink("حذف", "Delete", new { id = item.Disease.Id })
+            @Html.ActionLink("تعديل", "Edit", new { id = item.Disease.Id }, new { @class = "btn btn-success" }) |
+            @Html.ActionLink("التفاصيل", "Details", new { id = item.Disease.Id }, new { @class = "btn btn-info" }) |
+            @using (Html.BeginForm("Delete", "Diseases", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@item.Disease.Id" />
+                <button type="submit" class="btn btn-danger" onclick="javascript:return ShowMessage();">حذف</button>
+            }
         </td>
     </tr>
     }
 
 </table>
+
+
+<script>
+    function ShowMessage() {
+        var result = confirm("Do you want to delete this disease ?");
+        if (result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>

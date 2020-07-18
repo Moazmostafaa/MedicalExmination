@@ -29,7 +29,7 @@
     <h4>الدكاترة المقترحين</h4>
     @foreach (var doctor in Model.Doctors)
     {
-        <span style="font-size: 110%;">@doctor.UserName</span>
+        <h4><a href="@Url.Action("Details","Doctors", new { doctorid = doctor.Id })">د / @doctor.UserName</a></h4>
     }
 </div>
 <p style="margin-top:20px">

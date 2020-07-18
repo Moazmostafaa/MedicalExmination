@@ -50,9 +50,8 @@ namespace MedicalExamination.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "البريد الإلكتروني")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "الاسم")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

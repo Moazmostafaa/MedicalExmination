@@ -6,106 +6,149 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @*<iframe src="#"></iframe>*@
+<div class="container">
 
     @foreach (var item in Model.Categories)
     {
-        <div class="panel panel-default" style="padding:15px">
+        <div class="panel panel-default col-md-9" style="padding:15px">
             <h3 class="panel-heading">@Html.DisplayFor(modelItem => item.CategoryName)</h3>
             <div class="row">
                 @foreach (var subItem in item.Posts)
                 {
                     <div class="col-md-8 thumbnail">
-                        <div class="card col-md-8" style="margin-bottom:15px;border:initial">
-                            <div class="card-header row" style="background-color:#EEE">
-                                <div>
-                                    <p>
-                                        <h4 style="text-decoration-style:solid">@Html.ActionLink(subItem.Patient.UserName, "Details", new { patientid = subItem.Patient.Id })</h4>
-                                    </p>
-                                    <div style="float:left;margin-top: -17px;">
-                                        <h6 style="margin-left:2px">@Html.DisplayFor(modelItem => subItem.PostDate)</h6>
+                            <div class="card col-md-8" style="margin-bottom:15px;border:initial">
+                                <div class="card-header row" style="background-color:#EEE">
+                                    <div>
+                                        <p>
+                                            <h4 style="text-decoration-style:solid">@Html.ActionLink(subItem.Patient.UserName, "Details", new { patientid = subItem.Patient.Id })</h4>
+                                        </p>
+                                        <div style="float:left;margin-top: -17px;">
+                                            <h6 style="margin-left:2px">@Html.DisplayFor(modelItem => subItem.PostDate)</h6>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <h4 style="margin-left:2px">@Html.DisplayFor(modelItem => subItem.PostContant)</h4>
-                            </div>
-                            @if (ViewBag.PatientId == subItem.PatientId)
-                            {
-                                <div class="col-md-12" id="PostComment">
-                                    <form action="/Comments/Create" method="post">
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="DoctorId" value="@subItem.PatientId" />
-                                        <input type="hidden" name="PostId" value="@subItem.Id" />
-                                        <div class="row form-group" style="margin-top:20px">
-                                            <textarea name="CommentContent" style="width:600px;height:50px;"></textarea>
-                                            @Html.ValidationMessageFor(model => model.Comment.CommentContent, "", new { @class = "text-danger" })
-                                            <input type="submit" value="Create" class="btn btn-default" />
-                                        </div>
-                                    </form>
+                                <div class="card-body">
+                                    <h4 style="margin-left:2px">@Html.DisplayFor(modelItem => subItem.PostContant)</h4>
                                 </div>
-                            }
-                            <div class="card-footer col-md-10" style="background-color:#EEE;overflow: auto;">
-                                @foreach (var row in subItem.Comments)
+                                @if (ViewBag.PatientId == subItem.PatientId)
                                 {
-                                    <div class="card" style="background-color:white;margin-bottom:10px">
-                                        <div class="card-header">
-                                            <div>
-                                                <h4><a href="@Url.Action("Details","Doctors", new { doctorid = row.Doctor.Id })">@row.Doctor.UserName</a></h4>
-                                                <small style="margin-left:5px">@Html.DisplayFor(modelItem => row.CommentDate)</small>
+                                    <div class="col-md-12" id="PostComment">
+                                        <form action="/Comments/Create" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="DoctorId" value="@subItem.PatientId" />
+                                            <input type="hidden" name="PostId" value="@subItem.Id" />
+                                            <div class="row form-group" style="margin-top:20px">
+                                                <textarea name="CommentContent" style="width:600px;height:50px;"></textarea>
+                                                @Html.ValidationMessageFor(model => model.Comment.CommentContent, "", new { @class = "text-danger" })
+                                                <input type="submit" value="Create" class="btn btn-default" />
                                             </div>
-                                        </div>
-                                        <div class="card-body" style="margin-left:10px;word-wrap:break-word">
-                                            @Html.DisplayFor(modelItem => row.CommentContent)
-                                        </div>
-                                        <div class="card-footer">
-                                            @if (ViewBag.PatientId == subItem.PatientId)
-                                            {
-                                                <div style="float:left;margin-top: -17px;">
-                                                    <a href="@Url.Action("Delete","Comments",new { id = row.Id})">Delete</a>
-                                                </div>
-                                            }
-                                        </div>
+                                        </form>
                                     </div>
                                 }
+                                <div class="card-footer col-md-10" style="background-color:#EEE;overflow: auto;">
+                                    @foreach (var row in subItem.Comments)
+                                    {
+                                        <div class="card" style="background-color:white;margin-bottom:10px">
+                                            <div class="card-header">
+                                                <div>
+                                                    <h4><a href="@Url.Action("Details","Doctors", new { doctorid = row.Doctor.Id })">@row.Doctor.UserName</a></h4>
+                                                    <small style="margin-left:5px">@Html.DisplayFor(modelItem => row.CommentDate)</small>
+                                                </div>
+                                            </div>
+                                            <div class="card-body" style="margin-left:10px;word-wrap:break-word">
+                                                @Html.DisplayFor(modelItem => row.CommentContent)
+                                            </div>
+                                            <div class="card-footer">
+                                                @if (ViewBag.PatientId == subItem.PatientId)
+                                                {
+                                                    <div style="float:left;margin-top: -17px;">
+                                                        <a href="@Url.Action("Delete","Comments",new { id = row.Id})">Delete</a>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
 
+                                </div>
                             </div>
                         </div>
-                    </div>
+
+                    @*<div class="card gedf-card col-md-8" style="margin:20px">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="mr-2">
+                                        <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
+                                    </div>
+                                    <div class="ml-2">
+                                        <div class="h5 m-0">@subItem.Patient.UserName</div>
+                                        <div class="h7 text-muted">@subItem.Patient.UserType</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-ellipsis-h"></i>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
+                                            <div class="h6 dropdown-header">Configuration</div>
+                                            <a class="dropdown-item" href="#">Save</a>
+                                            <a class="dropdown-item" href="#">Hide</a>
+                                            <a class="dropdown-item" href="#">Report</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" style="text-align:right">
+                            <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>@subItem.PostDate</div>
+                            <a class="card-link" href="#">
+                                <h5 class="card-title">Lorem ipsum dolor sit amet, consectetur adip.</h5>
+                            </a>
+                            <p class="card-text">
+                                @subItem.PostContant
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
+                            <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
+                            <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
+                        </div>
+                    </div>*@
                 }
             </div>
         </div>
     }
+</div>
 
-
-
-    @*
-            @foreach (var item in Model)
-                    {
-            <div class="card col-md-6" style="margin-bottom:15px;border:initial">
-                <div class="card-header row" style="background-color:#EEE">
-                    <div>
-                        <h6 style="margin-left:2px">@Html.DisplayFor(modelItem => item.PostDate)</h6>
-                    </div>
-                    <div style="float:right">
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </div>
+@*
+        @foreach (var item in Model)
+                {
+        <div class="card col-md-6" style="margin-bottom:15px;border:initial">
+            <div class="card-header row" style="background-color:#EEE">
+                <div>
+                    <h6 style="margin-left:2px">@Html.DisplayFor(modelItem => item.PostDate)</h6>
                 </div>
-                <div class="card-body">
-                    @Html.DisplayFor(modelItem => item.PostContant)
-                </div>
-                <div class="col-md-12">
-                    <form action="/Comments/Create" method="post">
-                        @Html.AntiForgeryToken()
-                        <div class="row form-group" style="margin-top:20px">
-                            <textarea name="CommentDescription" style="width:600px;height:50px;"></textarea>
-
-                            <input type="submit" value="Create" class="btn btn-default" />
-                        </div>
-                    </form>
+                <div style="float:right">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </div>
             </div>
-        }
+            <div class="card-body">
+                @Html.DisplayFor(modelItem => item.PostContant)
+            </div>
+            <div class="col-md-12">
+                <form action="/Comments/Create" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="row form-group" style="margin-top:20px">
+                        <textarea name="CommentDescription" style="width:600px;height:50px;"></textarea>
 
-    *@
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+
+*@
