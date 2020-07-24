@@ -9,6 +9,7 @@
 <div class="container">
     @*Profile Info*@
     <div class="row">
+        <input id="ID" type="hidden" value="@Model.Id" />
         <div>
             <h3>حسابي</h3>
             <hr />
@@ -35,8 +36,68 @@
                 <dd>@Html.DisplayFor(model => cityName)</dd>
                 <dt>@Html.DisplayNameFor(model => model.Category.CategoryName)</dt>
                 <dd>@Html.DisplayFor(model => model.Category.CategoryName)</dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Total_Rate)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Total_Rate)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("تقييم")
+                </dt>
+                <dd>
+                    <select id="ratingList" onchange="Ratedoctor()">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </dd>
+
+            </dl>
             </dl>
         </div>
     </div>
 </div>
+
+
+<script>
+    @*$(document).ready(function () {
+        $('#ratingList').change(function () {
+            var docId = @Model.Id;
+        $.ajax({
+            url: '@Url.Action("RateDoctor", "Patients")',
+            type: 'POST',
+            data: { docId: docId, rate: $('ratingList').val() },
+
+            success: function (data) {
+                window.location.href = data;
+            }
+        });
+    });
+    });*@
+
+    function Ratedoctor() {
+        debugger;
+        var docId = $("#ID").val();
+        var rate = $("#ratingList").children("option:selected").val();
+
+                $.ajax({
+                    url: '@Url.Action("RateDoctor", "Patients")',
+                    type: 'POST',
+                    data: { docId: docId, rate: rate },
+                    dataType: "json",
+                    success: function (data) {
+                        window.location.href = data;
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+        }
+
+</script>
 

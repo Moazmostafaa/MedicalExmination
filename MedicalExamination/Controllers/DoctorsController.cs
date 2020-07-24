@@ -31,8 +31,11 @@ namespace MedicalExamination.Controllers
         public ActionResult ViewProfile_Doctor(string docId)
         {
             var doctor = db.Doctors.FirstOrDefault(p => p.Id == docId);
-            var doctorId = User.Identity.GetUserId();
-            ViewBag.DoctorId = doctorId;
+            ViewBag.DoctorId = docId;
+
+            var userId = User.Identity.GetUserId();
+            ViewBag.UserType = db.Users.FirstOrDefault(x => x.Id == userId).UserType;
+
             if (doctor != null)
             {
                 return View(doctor);

@@ -373,6 +373,18 @@
     <Compile Include="Migrations\202007181704230_addUserIdToTestTbl.designer.cs">
       <DependentUpon>202007181704230_addUserIdToTestTbl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007230804570_uupdateRatingTypeToDouble.cs" />
+    <Compile Include="Migrations\202007230804570_uupdateRatingTypeToDouble.designer.cs">
+      <DependentUpon>202007230804570_uupdateRatingTypeToDouble.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007230937232_updateTotalRatenName.cs" />
+    <Compile Include="Migrations\202007230937232_updateTotalRatenName.designer.cs">
+      <DependentUpon>202007230937232_updateTotalRatenName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007231202240_updateDataTypeAndNamesOfRating.cs" />
+    <Compile Include="Migrations\202007231202240_updateDataTypeAndNamesOfRating.designer.cs">
+      <DependentUpon>202007231202240_updateDataTypeAndNamesOfRating.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address\City.cs" />
@@ -397,6 +409,7 @@
     <Compile Include="Models\TestAndDisease\TestSymptoms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CommentsViewModel.cs" />
     <Compile Include="ViewModels\DiseasesAndSymptoms\DiseasesViewModel.cs" />
     <Compile Include="ViewModels\DiseasesAndSymptoms\SymptomsViewModel.cs" />
     <Compile Include="ViewModels\DoctorViewModel.cs" />
@@ -620,6 +633,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007181704230_addUserIdToTestTbl.resx">
       <DependentUpon>202007181704230_addUserIdToTestTbl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007230804570_uupdateRatingTypeToDouble.resx">
+      <DependentUpon>202007230804570_uupdateRatingTypeToDouble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007230937232_updateTotalRatenName.resx">
+      <DependentUpon>202007230937232_updateTotalRatenName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007231202240_updateDataTypeAndNamesOfRating.resx">
+      <DependentUpon>202007231202240_updateDataTypeAndNamesOfRating.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -926,6 +948,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Account\ViewModel.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Comments\Comments.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

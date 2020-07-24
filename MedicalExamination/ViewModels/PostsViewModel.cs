@@ -16,6 +16,6 @@ namespace MedicalExamination.ViewModels
         public IEnumerable<Post> Posts { get; set; }
         public Comment Comment { get; set; }
         public IEnumerable<Comment> Comments { get; set; }
-
+        public List<CommentsViewModel> CommentsViewModel { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MedicalExamination.Models;
+using MedicalExamination.ViewModels;
 using Microsoft.AspNet.Identity;
 
 namespace MedicalExamination.Controllers
@@ -14,7 +15,7 @@ namespace MedicalExamination.Controllers
     public class CommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        
+
         // GET: Comments
         public ActionResult Index()
         {
@@ -42,7 +43,7 @@ namespace MedicalExamination.Controllers
         [Authorize]
         public ActionResult Create()
         {
-           
+
             ViewBag.PostId = new SelectList(db.Posts, "Id", "PostContant");
             return View();
         }
@@ -55,7 +56,7 @@ namespace MedicalExamination.Controllers
         public ActionResult Create([Bind(Include = "Id,CommentContent,CommentDate,PostId,DoctorId")] Comment comment)
         {
             var DoctorId = User.Identity.GetUserId();
-           
+
             if (ModelState.IsValid)
             {
                 comment.DoctorId = DoctorId;
@@ -65,7 +66,7 @@ namespace MedicalExamination.Controllers
                 return RedirectToAction("Index", "Doctors");
             }
 
-            
+
             ViewBag.PostId = new SelectList(db.Posts, "Id", "PostContant", comment.PostId);
             return View();
         }
@@ -105,31 +106,17 @@ namespace MedicalExamination.Controllers
             ViewBag.PostId = new SelectList(db.Posts, "Id", "PostContant", comment.PostId);
             return View(comment);
         }
-
-        // GET: Comments/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Comment comment = db.Comments.Find(id);
-            if (comment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(comment);
-        }
+        
 
         // POST: Comments/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
             Comment comment = db.Comments.Find(id);
             db.Comments.Remove(comment);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Comments","Comments",new { postId = comment.PostId});
         }
 
         protected override void Dispose(bool disposing)
@@ -139,6 +126,23 @@ namespace MedicalExamination.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult Comments(int postId)
+        {
+            var comments = new List<CommentsViewModel>();
+            var postComments = db.Comments.Where(x => x.PostId == postId).ToList();
+            foreach (var comment in postComments)
+            {
+                var commentViewModel = new CommentsViewModel()
+                {
+                    Comment = comment,
+                    OwnerName = db.Doctors.FirstOrDefault(x => x.Id == comment.DoctorId).UserName,
+                };
+                comments.Add(commentViewModel);
+            }
+
+            return PartialView(comments);
         }
     }
 }

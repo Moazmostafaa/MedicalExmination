@@ -1,0 +1,65 @@
+﻿@model IEnumerable<MedicalExamination.ViewModels.CommentsViewModel>
+@using Microsoft.AspNet.Identity
+
+
+
+<div class="modal-header" style="text-align:center">
+    <h5 class="modal-title" id="exampleModalLabel">Post Comments</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body col-md-12" style="text-align:center">
+    @if (Model.Count() > 0)
+    {
+
+        foreach (var comment in Model)
+        {
+            <div class="card gedf-card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="mr-2">
+                                <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
+                            </div>
+                            <div class="ml-2">
+                                @if (ViewBag.UserType == "دكتور")
+                                {
+                                    <div class="h5 m-0">@Html.ActionLink(comment.OwnerName, "ViewProfile_Doctor", "Doctor", new { doctorId = comment.Comment.DoctorId }, null)</div>
+                                }
+                                else if (ViewBag.UserType == "مريض")
+                                {
+
+                                    <div class="h5 m-0">@Html.ActionLink(comment.OwnerName, "ViewProfile_Patient", "Patient", new { patientId = comment.Comment.DoctorId }, null)</div>
+                                }
+
+                                <div class="h7 text-muted">comment</div>
+                            </div>
+                        </div>
+                        <div>
+                            @if (ViewBag.UserId == comment.Comment.DoctorId)
+                            {
+                                @Html.ActionLink("Delete", "Delete", "Comments", new { id = comment.Comment.Id })
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>@comment.Comment.CommentDate</div>
+                    <p class="card-text">
+                        @comment.Comment.CommentContent
+                    </p>
+                </div>
+                <div class="card-footer">
+                    @*<a onclick="createModal('@Url.Action("Comments", "Comments", new { postId = subItem.Id })')" class="card-link"><i class="fa fa-comment"></i> التعليقات</a>*@
+                </div>
+            </div>
+
+        }
+    }
+    else
+    {
+        <h3 class="text-primary">No comments to show !</h3>
+    }
+</div>

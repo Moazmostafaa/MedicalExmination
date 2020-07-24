@@ -27,6 +27,26 @@ namespace MedicalExamination.Controllers
             ViewBag.PatientId = patientId;
             ViewBag.UserType = userType;
             viewModel.Categories = db.Categories.Include(p => p.Posts).ToList();
+
+            viewModel.CommentsViewModel = new List<CommentsViewModel>();
+            foreach (var category in viewModel.Categories)
+            {
+                foreach (var post in category.Posts)
+                {
+
+                    var postComments = db.Comments.Where(x => x.PostId == post.Id).ToList();
+                    foreach (var comment in postComments)
+                    {
+                        var commentViewModel = new CommentsViewModel()
+                        {
+                            Comment = comment,
+                            OwnerName = db.Doctors.FirstOrDefault(x => x.Id == comment.DoctorId).UserName,
+                        };
+                        viewModel.CommentsViewModel.Add(commentViewModel);
+                    }
+                }
+            }
+
             return View(viewModel);
         }
 
@@ -61,15 +81,16 @@ namespace MedicalExamination.Controllers
 
         //// POST: Patients/RateDoctor/{rate}
         [HttpPost]
-        public ActionResult RateDoctor(string docId, decimal rate)
+        [Authorize(Roles = ("مريض"))]
+        public JsonResult RateDoctor(string docId, int rate)
         {
-            Rating addrate = new Rating();
-            string Patient = User.Identity.GetUserId();
-            var patientrates = db.Ratings.Where(c => c.DoctorId == docId).Any(x => x.PatientId == Patient);
-
+            string patientId = User.Identity.GetUserId();
+            var patientrates = db.Ratings.Where(c => c.DoctorId == docId).Any(x => x.PatientId == patientId);
+            var oldRate = 0;
             if (patientrates)
             {
-                var rateModel = db.Ratings.FirstOrDefault(p => p.PatientId == Patient && p.DoctorId == docId);
+                var rateModel = db.Ratings.FirstOrDefault(p => p.PatientId == patientId && p.DoctorId == docId);
+                oldRate = rateModel.RatingValue;
                 rateModel.RatingValue = rate;
                 db.Entry(rateModel).State = EntityState.Modified;
                 db.SaveChanges();
@@ -79,25 +100,25 @@ namespace MedicalExamination.Controllers
                 var newRatingModel = new Rating()
                 {
                     DoctorId = docId,
-                    PatientId = Patient,
+                    PatientId = patientId,
                     RatingValue = rate,
                 };
                 db.Ratings.Add(newRatingModel);
                 db.SaveChanges();
             }
 
-            var totalRate = db.Ratings.Where(x => x.DoctorId == docId).Sum(x => x.RatingValue);
-            var numOfUsers = db.Ratings.Where(x => x.DoctorId == docId).Count();
-
-            var avarage = totalRate / numOfUsers;
-
             var doctorModel = db.Doctors.FirstOrDefault(p => p.Id == docId);
-            doctorModel.Total_Rate = avarage;
-            doctorModel.UsersRated = numOfUsers;
+
+            doctorModel.Total_Rate = db.Ratings.Where(x => x.DoctorId == docId)?.Average(x => x.RatingValue) ?? 0;
+
+            if (!patientrates)
+            {
+                doctorModel.UsersRated += 1;
+            }
             db.Entry(doctorModel).State = EntityState.Modified;
             db.SaveChanges();
 
-            return RedirectToAction("ViewProfile_Patient", "Doctors", new { profId = docId });
+            return Json(Url.Action("Details", "Doctors", new { doctorid = docId }));
         }
 
         // GET: Patients/Details/5

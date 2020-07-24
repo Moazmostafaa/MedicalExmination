@@ -20,10 +20,10 @@ namespace MedicalExamination.Models.Doctor
         [ForeignKey("Patient")]
         public string PatientId { get; set; }
 
-        [Display(Name = "Rating Value")]
+        [Display(Name = "التقييم")]
         [Range(0.0, 5.0, ErrorMessage = "Please Enter Valid Rating Value Between 1 and 5")]
         [Required(ErrorMessage = "Please Enter Rating")]
-        public decimal RatingValue { get; set; }
+        public int RatingValue { get; set; }
 
     }
 }

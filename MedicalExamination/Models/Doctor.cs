@@ -11,10 +11,10 @@ namespace MedicalExamination.Models.Doctor
         public string CardId { get; set; }
         public int CategoryId { get; set; }
 
-        [Display(Name = "Doctor total Rate")]
-        public decimal? Total_Rate { get; set; }
+        [Display(Name = "التقييم")]
+        public double? Total_Rate { get; set; }
 
-        [Display(Name = "Number Of Users Rate Doctor")]
+        [Display(Name = "عدد التقييمات")]
         public long? UsersRated { get; set; }
 
         public virtual Category Category { get; set; }

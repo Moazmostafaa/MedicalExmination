@@ -46,6 +46,7 @@
                 <dd>
                     @Html.DisplayFor(model => model.UserType)
                 </dd>
+
                 <dt>
                     المدينة :
                 </dt>
@@ -55,13 +56,17 @@
                 <dd>
                     @Html.DisplayFor(model => cityName)
                 </dd>
+
                 <dt>
                     @Html.DisplayNameFor(model => model.Category.CategoryName)
                 </dt>
                 <dd>
                     @Html.DisplayFor(model => model.Category.CategoryName)
                 </dd>
-            </dl>
-            </div>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Total_Rate)
+                </dt>
         </div>
     </div>
+</div>
