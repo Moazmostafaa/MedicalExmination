@@ -220,6 +220,18 @@ namespace MedicalExamination.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Search()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Search(string searchName)
+        {
+            var result = db.Posts.Where(a => a.PostContant.Contains(searchName) || a.Category.CategoryName.Contains(searchName)).ToList() ;
+            return View(result);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -454,6 +454,7 @@
     </Content>
     <Content Include="Images\Doctor-female.jpg" />
     <Content Include="Images\Doctor-male.jpg" />
+    <Content Include="Images\logo.png" />
     <Content Include="Images\Patient-female.jpg" />
     <Content Include="Images\Patient-male.jpg" />
     <Content Include="Scripts\bootstrap.min.js" />

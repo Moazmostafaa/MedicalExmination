@@ -36,7 +36,7 @@ textarea {
 }
 
 .navbar-default {
-    background-color: #000000;
+    background-color: #088484;
     border-color: #e7e7e7;
 }
 
@@ -46,22 +46,23 @@ textarea {
     }
 
         .navbar-default .navbar-nav > li > a:hover {
-            color: #808080;
+            color: #282828;
         }
 
 .myfooter {
-    background-color: #1a1919;
+    background-color: #088484;
     color: #e7e7e7;
     font-family: myFont;
 }
 
 .subfooter {
-    background-color: #000000;
+    background-color: #282828;
     color: #e7e7e7;
     text-align: center;
 }
 
-.myfooter {
+.myfooter a{
+    color:azure ;
     margin-bottom: 20px;
     font-family: myFont2;
     list-style-type: none;
@@ -126,4 +127,10 @@ input[type=checkbox] {
 .dropdown-toggle::after {
     content: none;
     display: none;
+}
+
+.logo-size{
+    width:200px ;
+    height:42px ;
+    margin-top : -10px;
 }
