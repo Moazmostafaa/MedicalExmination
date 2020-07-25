@@ -12,6 +12,9 @@ using MedicalExamination.Models.TestAndDisease;
 using MedicalExamination.ViewModels;
 using MedicalExamination.ViewModels.DiseasesAndSymptoms;
 using Microsoft.AspNet.Identity;
+using IronPython.Hosting;
+using System.Diagnostics;
+using System.IO;
 
 namespace MedicalExamination.Controllers
 {
@@ -23,7 +26,7 @@ namespace MedicalExamination.Controllers
         public ActionResult Index()
         {
             var patientId = User.Identity.GetUserId(); ;
-            return View(db.Tests.Where(x=>x.UserId == patientId).ToList());
+            return View(db.Tests.Where(x => x.UserId == patientId).ToList());
         }
 
         // GET: Tests/Details/5
@@ -45,7 +48,7 @@ namespace MedicalExamination.Controllers
 
             var symptoms = new List<Symptoms>();
 
-            foreach(var testSymptom in testSymptoms)
+            foreach (var testSymptom in testSymptoms)
             {
                 var symptom = db.Symptoms.FirstOrDefault(x => x.Id == testSymptom.SymptomId);
                 symptoms.Add(symptom);
@@ -125,6 +128,11 @@ namespace MedicalExamination.Controllers
                 symptomsArNames[i] = symptom.NameAr;
             }
 
+            //var engine = Python.CreateEngine();
+            //dynamic py = engine.ExecuteFile(@"E:\Medical Examination\Medical_Diagnostic\Medical_Diagnostic.py");
+            //dynamic diagnosticModel = py.Diagnostic_Model();
+            //var line = diagnosticModel.Symptoms_Data(symptomsArNames).Tostring();
+
             var diseaseName = "عدوى فطرية";
 
             var disease = db.Diseases.FirstOrDefault(x => x.NameAr == diseaseName);
@@ -139,7 +147,7 @@ namespace MedicalExamination.Controllers
                 UserId = patientId,
             };
             db.Tests.Add(test);
-            
+
             var testSymptoms = new List<TestSymptoms>();
             db.SaveChanges();
             for (int i = 0; i < symptomsIDs.Length; i++)
@@ -152,10 +160,7 @@ namespace MedicalExamination.Controllers
                     TestId = test.Id,
                     SymptomId = symptom.Id,
                 };
-
                 testSymptoms.Add(testSymptom);
-
-                
             }
 
             db.TestSymptoms.AddRange(testSymptoms);
