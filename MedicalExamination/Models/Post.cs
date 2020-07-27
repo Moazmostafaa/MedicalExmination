@@ -9,7 +9,7 @@ namespace MedicalExamination.Models
     public class Post
     {
         public int Id { get; set; }
-        [Display(Name ="post")]
+        [Display(Name ="بوست")]
         public string PostContant { get; set; }
         public DateTime PostDate { get; set; }
 

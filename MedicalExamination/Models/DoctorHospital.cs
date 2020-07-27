@@ -10,10 +10,15 @@ namespace MedicalExamination.Models.Doctor
     {
         [Key]
         public int Id { get; set; }
+
+        [Display(Name = "يوم")]
         public string DayName { get; set; }
+        [Display(Name = "من")]
         public string From { get; set; }
+        [Display(Name = "الي")]
         public string To { get; set; }
         public string DoctorId { get; set; }
+        [Display(Name = "اسم المستشفي")]
         public int HospitalId { get; set; }
 
         public virtual ICollection<Doctor> Doctor { get; set; }

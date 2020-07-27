@@ -12,11 +12,13 @@ using Microsoft.AspNet.Identity;
 
 namespace MedicalExamination.Controllers
 {
+    [Authorize(Roles = "مريض,دكتور")]
     public class CommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Comments
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var viewModel = new Comment();
@@ -40,7 +42,6 @@ namespace MedicalExamination.Controllers
         }
 
         // GET: Comments/Create
-        [Authorize]
         public ActionResult Create()
         {
 

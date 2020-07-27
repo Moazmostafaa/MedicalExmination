@@ -12,6 +12,7 @@ using MedicalExamination.ViewModels.DiseasesAndSymptoms;
 
 namespace MedicalExamination.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class SymptomsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

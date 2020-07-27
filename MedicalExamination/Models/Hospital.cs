@@ -10,7 +10,9 @@ namespace MedicalExamination.Models.Doctor
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name = "اسم المستشفي")]
         public string Name { get; set; }
+        [Display(Name = "العنوان")]
         public string Address { get; set; }
     }
 }
