@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MedicalExamination.Models.TestAndDisease.Symptoms>
+﻿@model MedicalExamination.ViewModels.TestViewModel
 
 @{
     ViewBag.Title = "TakeTest";
@@ -9,9 +9,32 @@
 <h4>اختر من الاعراض الاتية ما تشعر به</h4>
 
 <hr />
+<h5 class="text-danger">@TempData["ErrorMessage"]</h5>
+@using (Html.BeginForm("TakeTest", "Tests", FormMethod.Post, new { @style = "margin-bottom:20px;margin-left:15px" }))
+{
+    <div class="row">
+        <div class="form-group col-md-12" style="margin-bottom:20px">
+            @Html.Label("اسم العرض", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TestFilter.SymptomName, new { htmlAttributes = new { @class = "form-control col-md-3" } })
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                @Html.Label("الفئة", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(x => x.TestFilter.CategoryId, new SelectList(ViewBag.Categories, "Id", "CategoryName"), "-اختر الفئة-", new { @class = "col-md-3 form-control" })
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary" style="margin-left:30px">بحث</button>
+            </div>
+        </div>
+    </div>
+}
 
-<div id="MyDiv" style="display:inline-block">
-    @foreach (var symptom in Model)
+<div id="MyDiv" class="col-md-12">
+    @foreach (var symptom in Model.Symptoms)
     {
         <div class="col-md-3" style="margin-bottom:30px">
             <input type="checkbox" name="symptom" value="@symptom.Id" style="margin-left:10px;font-size" />
@@ -30,7 +53,7 @@
             list.push(this.value);
         });
         $.ajax({
-            url: '@Url.Action("TakeTest","Tests")',
+            url: '@Url.Action("TakeTestSymptoms", "Tests")',
             type: 'POST',
             data: { symptomsIDs: list },
 

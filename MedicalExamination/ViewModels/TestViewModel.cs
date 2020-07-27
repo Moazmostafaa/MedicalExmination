@@ -1,4 +1,5 @@
-﻿using MedicalExamination.Models.Doctor;
+﻿using MedicalExamination.Filters;
+using MedicalExamination.Models.Doctor;
 using MedicalExamination.Models.TestAndDisease;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace MedicalExamination.ViewModels
         public Test Test { get; set; }
         public List<Symptoms> Symptoms { get; set; }
         public List<Doctor> Doctors { get; set; }
+        public TestFilter TestFilter { get; set; }
     }
 }

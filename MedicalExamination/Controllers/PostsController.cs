@@ -62,7 +62,7 @@ namespace MedicalExamination.Controllers
                 post.PostDate = DateTime.Now;
                 db.Posts.Add(post);
                 db.SaveChanges();
-                return RedirectToAction("ViewProfile_Patient", "Patients");
+                return RedirectToAction("ViewProfile_Patient", "Patients",new { profId = PatientId });
             }
 
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "CategoryName", post.CategoryId);

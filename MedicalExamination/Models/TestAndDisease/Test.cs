@@ -12,9 +12,9 @@ namespace MedicalExamination.Models.TestAndDisease
         [Required, Display(Name = "تاريخ الإنشاء")]
         public DateTime CreationDate { get; set; }
         public int DiseaseId { get; set; }
-        [Required, Display(Name = "اسم المرض العربي")]
+        [Required, Display(Name = "اسم المرض الاجنبي")]
         public string DiseaseNameEn { get; set; }
-        [Required, Display(Name = "اسم المرض الاجنبى")]
+        [Required, Display(Name = "اسم المرض العربي")]
         public string DiseaseNameAr { get; set; }
         public string UserId { get; set; }
     }

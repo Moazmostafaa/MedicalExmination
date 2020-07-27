@@ -1,0 +1,30 @@
+﻿@model MedicalExamination.ViewModels.TestViewModel
+
+@{
+    ViewBag.Title = "GuestTestDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>تفاصيل الإختبار</h2>
+
+<div>
+    <h4>اختبار يوم @Model.Test.CreationDate</h4>
+    <hr />
+
+    <h4>الأعراض :</h4>
+    <div style="display:inline-block">
+        @foreach (var symptom in Model.Symptoms)
+        {
+            <div class="col-md-3" style="margin-bottom:30px">
+                <span class="checkboxtext" style="margin-left:25px">@symptom.NameAr</span>
+            </div>
+        }
+    </div>
+    <hr />
+
+    <h4>نتيجة الأختبار :</h4>
+    <span style="font-size: 110%;">@Model.Test.DiseaseNameAr</span>
+    <hr />
+</div>
+
+
