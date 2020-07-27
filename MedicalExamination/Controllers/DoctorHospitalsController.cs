@@ -13,7 +13,6 @@ using MedicalExamination.ViewModels;
 
 namespace MedicalExamination.Controllers
 {
-    [Authorize(Roles = "Admin,دكتور")]
     public class DoctorHospitalsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

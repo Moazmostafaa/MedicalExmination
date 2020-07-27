@@ -82,7 +82,6 @@ namespace MedicalExamination.Controllers
 
         //// POST: Patients/RateDoctor/{rate}
         [HttpPost]
-        [Authorize(Roles = ("مريض"))]
         public JsonResult RateDoctor(string docId, int rate)
         {
             string patientId = User.Identity.GetUserId();

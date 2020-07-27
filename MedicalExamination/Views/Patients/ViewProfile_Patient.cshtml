@@ -93,8 +93,14 @@
                                 <h6 style="margin-left:2px">@Html.DisplayFor(modelItem => item.PostDate)</h6>
                             </div>
                             <div style="float:right">
-                                @Html.ActionLink("تعديل", "Edit", new { id = item.Id }) |
-                                @Html.ActionLink("حذف   ", "Delete", new { id = item.Id })
+                                @*@Html.ActionLink("حذف", "Delete", new { id = item.Id })*@
+                                @using (Html.BeginForm("Delete", "Posts", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@item.Id" />
+
+                                    <button type="submit" class="btn btn-danger" onclick="javascript:return ShowPostMessage();">حذف</button>
+                                }
                             </div>
                         </div>
                         <div class="card-body">
@@ -127,7 +133,14 @@
                                     </div>
                                     <div class="card-footer">
                                         <div style="float:left;margin-top: -17px;">
-                                            <a href="@Url.Action("Delete","Comments",new { id = row.Id})">حذف</a>
+                                            @*<a href="@Url.Action("Delete","Comments",new { id = row.Id})">حذف</a>*@
+                                            @using (Html.BeginForm("Delete", "Comments", FormMethod.Post))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@row.Id" />
+
+                                                <button type="submit" class="btn btn-danger" onclick="javascript:return ShowMessage();">Remove</button>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -142,3 +155,24 @@
 
     </div>
 </div>
+
+
+<script>
+    function ShowMessage() {
+        var result = confirm("Do you want to delete this post ?");
+        if (result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function ShowPostMessage() {
+        var result = confirm("Do you want to delete this post ?");
+        if (result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>

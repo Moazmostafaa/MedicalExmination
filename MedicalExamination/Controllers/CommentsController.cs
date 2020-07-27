@@ -12,13 +12,11 @@ using Microsoft.AspNet.Identity;
 
 namespace MedicalExamination.Controllers
 {
-    [Authorize(Roles = "مريض,دكتور")]
     public class CommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Comments
-        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var viewModel = new Comment();
@@ -57,19 +55,19 @@ namespace MedicalExamination.Controllers
         public ActionResult Create([Bind(Include = "Id,CommentContent,CommentDate,PostId,DoctorId")] Comment comment)
         {
             var DoctorId = User.Identity.GetUserId();
-
+            var post = db.Posts.FirstOrDefault(x => x.Id == comment.PostId);
             if (ModelState.IsValid)
             {
                 comment.DoctorId = DoctorId;
                 comment.CommentDate = DateTime.Now;
                 db.Comments.Add(comment);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Doctors");
+                return RedirectToAction("ViewProfile_Patient", "Patients", new { profId = post.PatientId });
             }
 
 
             ViewBag.PostId = new SelectList(db.Posts, "Id", "PostContant", comment.PostId);
-            return View();
+            return RedirectToAction("ViewProfile_Patient", "Patients", new { profId = post.PatientId });
         }
 
         // GET: Comments/Edit/5
@@ -115,9 +113,10 @@ namespace MedicalExamination.Controllers
         public ActionResult Delete(int id)
         {
             Comment comment = db.Comments.Find(id);
+            var post = db.Posts.FirstOrDefault(x => x.Id == comment.PostId);
             db.Comments.Remove(comment);
             db.SaveChanges();
-            return RedirectToAction("Comments","Comments",new { postId = comment.PostId});
+            return RedirectToAction("ViewProfile_Patient", "Patients", new { profId = post.PatientId });
         }
 
         protected override void Dispose(bool disposing)

@@ -167,7 +167,7 @@ namespace MedicalExamination.Controllers
                 symptomsArNames[i] = symptom.NameAr;
             }
 
-            //var engine = Python.CreateEngine();
+            //var engine = Python.CreateEx`ngine();
             //dynamic py = engine.ExecuteFile(@"E:\Medical Examination\Medical_Diagnostic\Medical_Diagnostic.py");
             //dynamic diagnosticModel = py.Diagnostic_Model();
             //var line = diagnosticModel.Symptoms_Data(symptomsArNames).Tostring();

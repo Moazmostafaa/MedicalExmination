@@ -9,7 +9,6 @@ using System.Web.Mvc;
 
 namespace MedicalExamination.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext() ;

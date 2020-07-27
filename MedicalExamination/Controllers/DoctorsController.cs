@@ -13,7 +13,6 @@ using Microsoft.AspNet.Identity;
 
 namespace MedicalExamination.Controllers
 {
-    [Authorize(Roles = "دكتور")]
     public class DoctorsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

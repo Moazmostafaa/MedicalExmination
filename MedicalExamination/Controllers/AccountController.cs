@@ -195,7 +195,6 @@ namespace MedicalExamination.Controllers
             return View(model);
         }
 
-        [Authorize(Roles ="Admin,مريض")]
         public ActionResult EditeProfile()
         {
             ViewBag.Country = db.Countries.ToList();
@@ -215,8 +214,7 @@ namespace MedicalExamination.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,مريض")]
-        public ActionResult EditeProfile(EditProfileViewModel profile)
+        public ActionResult QEditeProfile(EditProfileViewModel profile)
         {
 
             var patientId = User.Identity.GetUserId();
@@ -308,7 +306,6 @@ namespace MedicalExamination.Controllers
         }
 
         // GET: /Account/DoctorEditProfileViewModel
-        [Authorize(Roles = "دكتور")]
         public ActionResult DoctorEditeProfile()
         {
             ViewBag.Country = db.Countries.ToList();
@@ -327,7 +324,6 @@ namespace MedicalExamination.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "دكتور")]
         public ActionResult DoctorEditeProfile(DoctorEditProfileViewModel profile)
         {
 
