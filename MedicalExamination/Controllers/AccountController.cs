@@ -181,7 +181,7 @@ namespace MedicalExamination.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     await this.UserManager.AddToRoleAsync(patient.Id, model.Roles);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Patients");
                 }
                 ViewBag.Country = db.Countries.ToList();
                 ViewBag.GovernorateId = new SelectList(db.Governorates.ToList(), "Id", "GovernorateName");
@@ -195,6 +195,7 @@ namespace MedicalExamination.Controllers
             return View(model);
         }
 
+        [Authorize(Roles ="Admin,مريض")]
         public ActionResult EditeProfile()
         {
             ViewBag.Country = db.Countries.ToList();
@@ -214,6 +215,7 @@ namespace MedicalExamination.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,مريض")]
         public ActionResult EditeProfile(EditProfileViewModel profile)
         {
 
@@ -289,7 +291,7 @@ namespace MedicalExamination.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     await this.UserManager.AddToRoleAsync(doctor.Id, model.Roles);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Doctors");
                 }
 
                 ViewBag.Country = db.Countries.ToList();
@@ -306,6 +308,7 @@ namespace MedicalExamination.Controllers
         }
 
         // GET: /Account/DoctorEditProfileViewModel
+        [Authorize(Roles = "دكتور")]
         public ActionResult DoctorEditeProfile()
         {
             ViewBag.Country = db.Countries.ToList();
@@ -324,6 +327,7 @@ namespace MedicalExamination.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "دكتور")]
         public ActionResult DoctorEditeProfile(DoctorEditProfileViewModel profile)
         {
 

@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 
 namespace MedicalExamination.Controllers
 {
+    [Authorize(Roles = "Admin,دكتور")]
     public class ClinicsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -43,6 +44,7 @@ namespace MedicalExamination.Controllers
         }
 
         // GET: Clinics/Create
+
         public ActionResult Create()
         {
             ViewBag.DayName = new SelectList(new[] { "السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة" });

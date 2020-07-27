@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 
 namespace MedicalExamination.Controllers
 {
+    [Authorize(Roles = "دكتور")]
     public class DoctorsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -28,25 +29,20 @@ namespace MedicalExamination.Controllers
         }
 
         // View Profile
+        [Authorize(Roles = "دكتور,مريض")]
         public ActionResult ViewProfile_Doctor(string docId)
         {
-            var doctor = db.Doctors.FirstOrDefault(p => p.Id == docId);
-            ViewBag.DoctorId = docId;
+            var viewModel = new DoctorViewModel();
+            viewModel.Doctor = db.Doctors.FirstOrDefault(p => p.Id == docId);
+            viewModel.DoctorHospitals = db.DoctorHospitals.Where(d => d.DoctorId == docId).ToList();
+            viewModel.Clinics = db.Clinics.Where(d => d.DoctorId == docId).ToList();
+            return View(viewModel);
+            
 
-            var userId = User.Identity.GetUserId();
-            ViewBag.UserType = db.Users.FirstOrDefault(x => x.Id == userId).UserType;
-
-            if (doctor != null)
-            {
-                return View(doctor);
-            }
-            else
-            {
-                return Content("Doctor = null");
-            }
         }
 
         // GET: Doctors/Details/5
+        [Authorize(Roles = "دكتور,مريض")]
         public ActionResult Details(string doctorid)
         {
             if (doctorid == null)

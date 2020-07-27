@@ -13,7 +13,7 @@ using MedicalExamination.Models.Doctor;
 
 namespace MedicalExamination.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "مريض")]
     public class PatientsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -26,7 +26,7 @@ namespace MedicalExamination.Controllers
             var userType = db.Users.FirstOrDefault(x => x.Id == patientId).UserType;
             ViewBag.PatientId = patientId;
             ViewBag.UserType = userType;
-            viewModel.Categories = db.Categories.Include(p => p.Posts).ToList();
+            viewModel.Categories = db.Categories.Include(p => p.Posts).Where(x=>x.Posts.Any()).ToList();
 
             viewModel.CommentsViewModel = new List<CommentsViewModel>();
             foreach (var category in viewModel.Categories)
@@ -40,7 +40,7 @@ namespace MedicalExamination.Controllers
                         var commentViewModel = new CommentsViewModel()
                         {
                             Comment = comment,
-                            OwnerName = db.Doctors.FirstOrDefault(x => x.Id == comment.DoctorId).UserName,
+                            OwnerName = db.Users.FirstOrDefault(x => x.Id == comment.DoctorId).UserName,
                         };
                         viewModel.CommentsViewModel.Add(commentViewModel);
                     }
@@ -51,6 +51,7 @@ namespace MedicalExamination.Controllers
         }
 
         // View Profile
+        [Authorize(Roles = "دكتور,مريض")]
         public ActionResult ViewProfile_Patient(string profId)
         {
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "CategoryName");

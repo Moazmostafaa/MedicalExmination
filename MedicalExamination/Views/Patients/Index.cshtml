@@ -11,14 +11,14 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
-                    <div class="h5">@@LeeCross</div>
-                    <div class="h7 text-muted">Fullname : Miracles Lee Cross</div>
+                    <div class="h5">@*LeeCross*@</div>
+                    <div class="h7 text-muted">@*Fullname : Miracles Lee Cross*@</div>
                     <div class="h7">
-                        Developer of web applications, JavaScript, PHP, Java, Python, Ruby, Java, Node.js,
-                        etc.
+                        @*Developer of web applications, JavaScript, PHP, Java, Python, Ruby, Java, Node.js,
+                        etc.*@
                     </div>
                 </div>
-                <ul class="list-group list-group-flush">
+                @*<ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <div class="h6 text-muted">Followers</div>
                         <div class="h5">5.2342</div>
@@ -28,7 +28,7 @@
                         <div class="h5">6758</div>
                     </li>
                     <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
+                </ul>*@
             </div>
         </div>
         <div class="col-md-6 gedf-main">
@@ -100,25 +100,33 @@
                             <div class="card-header">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <div class="mr-2">
+                                        <div class="pull-left image image-cropper">
+                                            @if (subItem.Patient.Gender == "ذكر")
+                                            {
+                                                <img src="~/Images/Patient-male.jpg" class="rounded1" />
+                                            }
+                                            @if (subItem.Patient.Gender == "انثي")
+                                            {
+                                                <img src="~/Images/Patient-female.jpg" class="rounded1" />
+                                            }
+                                        </div>
+    @*<div class="mr-2">
                                             <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
-                                        </div>
+                                        </div>*@
                                         <div class="ml-2">
-                                            <div class="h5 m-0">@Html.ActionLink(subItem.Patient.UserName, "Details", new { patientid = subItem.Patient.Id })</div>
-                                            <div class="h7 text-muted">@subItem.Patient.UserType</div>
+                                            <div class="h4 m-0">@Html.ActionLink(subItem.Patient.UserName, "Details", new { patientid = subItem.Patient.Id })</div>
+                                            <div class="h6 text-muted">@subItem.Patient.UserType</div>
                                         </div>
-                                    </div>
-                                    <div>
-                                        @Html.ActionLink("Delete", "Delete", new { patientid = subItem.Patient.Id })
                                     </div>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>@subItem.PostDate</div>
-                                <p class="card-text">
-                                    @subItem.PostContant
-                                </p>
-                            </div>
+                                <div style="float:left;margin-top: -17px;">
+                                    <div class="text-muted h6 mb-2"> <i class="fa fa-clock-o"></i>@subItem.PostDate</div> </div>
+                                    <p class="card-text">
+                                        @subItem.PostContant
+                                    </p>
+                                </div>
                             <div class="card-footer">
                                 <a class="btn btn-light" onclick="createModal()"><i class="fa fa-comment"></i> التعليقات</a>
                             </div>
@@ -129,7 +137,7 @@
             }
         </div>
         <div class="col-md-3">
-            <div class="card gedf-card">
+            @*<div class="card gedf-card">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
@@ -152,18 +160,18 @@
                     <a href="#" class="card-link">Card link</a>
                     <a href="#" class="card-link">Another link</a>
                 </div>
-            </div>
+            </div>*@
         </div>
     </div>
 </div>
 
-<script>
+<script type="text/javascript">
     function createModal() {
-        $('#myModal').modal('show');
+        $('#exampleModal').modal('show');
     }
 </script>
 
-@*<div class="container-fluid">
+<div class="container-fluid">
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content" id="modalContent">
@@ -171,7 +179,7 @@
             </div>
         </div>
     </div>
-</div>*@
+</div>
 
 
 <!-- Button trigger modal -->

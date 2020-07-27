@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace MedicalExamination.Controllers
 {
+    [Authorize]
     public class PostsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
